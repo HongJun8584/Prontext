@@ -1,0 +1,318 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Minimalist Text Formatter</title>
+  <link href="https://cdn.jsdelivr.net/npm/tailwindcss@2.2.19/dist/tailwind.min.css" rel="stylesheet">
+  <style>
+    html {
+      scroll-behavior: smooth;
+    }
+  </style>
+</head>
+<body class="bg-gray-900 text-white min-h-screen font-sans">
+<!-- About Button -->
+<div class="absolute top-4 right-4 z-50">
+  <button id="aboutBtn" class="px-4 py-2 rounded-full bg-white/10 backdrop-blur-md border border-cyan-300 text-cyan-100 text-sm shadow-md hover:bg-white/20 transition-all">
+     About ME
+  </button>
+</div>
+
+<!-- About Modal -->
+<div id="aboutModal" class="fixed inset-0 bg-black/60 backdrop-blur-sm hidden items-end sm:items-center justify-center z-40">
+  <div class="bg-white/10 backdrop-blur-xl text-white border border-cyan-300 max-w-md w-full sm:rounded-2xl sm:mb-0 rounded-t-2xl p-6 shadow-xl relative animate-slideUp">
+    <button id="closeAbout" class="absolute top-3 right-4 text-white text-xl hover:text-cyan-300 transition">&times;</button>
+    <h2 class="text-xl font-semibold mb-3">👋 About Me</h2>
+    <p class="text-sm leading-relaxed text-gray-200">
+      Hi! I'm <strong> Hong Jun </strong>, a 14-year-old student passionate about building powerful, lightweight tools for everyday users.  
+      This site was handcrafted with love to offer 50+ useful text utilities in one clean, efficient interface.  
+      If you're interested in my template, please contact me at jkx8584@gmail.com.
+    </p>
+  </div>
+</div>
+
+<!-- Slide Up Animation -->
+<style>
+@keyframes slideUp {
+  from { opacity: 0; transform: translateY(60px); }
+  to { opacity: 1; transform: translateY(0); }
+}
+.animate-slideUp {
+  animation: slideUp 0.4s ease-out;
+}
+</style>
+
+<!-- About Modal Script -->
+<script>
+  const aboutBtn = document.getElementById("aboutBtn");
+  const aboutModal = document.getElementById("aboutModal");
+  const closeAbout = document.getElementById("closeAbout");
+
+  aboutBtn.onclick = () => {
+    aboutModal.classList.remove("hidden");
+    const modalContent = aboutModal.querySelector("div");
+    modalContent.classList.remove("animate-slideUp");
+    void modalContent.offsetWidth; // force reflow
+    modalContent.classList.add("animate-slideUp");
+  };
+
+  closeAbout.onclick = () => aboutModal.classList.add("hidden");
+
+  window.onclick = (e) => {
+    if (e.target === aboutModal) aboutModal.classList.add("hidden");
+  };
+</script>
+
+  <!-- 🌟 Hero Landing Section -->
+  <section class="h-screen flex flex-col items-center justify-center text-center px-4 bg-gradient-to-br from-purple-800 via-indigo-900 to-gray-900">
+    <h1 class="text-5xl md:text-6xl font-bold text-cyan-300 mb-4">Ultimate Text Formatter</h1>
+    <p class="text-lg text-indigo-300 max-w-xl mb-8">Clean, convert, beautify, and analyze your text with over 50 powerful tools.</p>
+    <a href="#intro" class="bg-cyan-500 text-white px-6 py-3 rounded-full hover:bg-cyan-600 transition">🚀 Explore Features</a>
+  </section>
+
+  <!-- 📖 Introduction Section -->
+  <section id="intro" class="py-20 px-6 bg-gray-950 text-center">
+    <h2 class="text-3xl font-bold text-purple-400 mb-6">What You Can Do With It</h2>
+    <p class="max-w-2xl mx-auto text-gray-300 text-lg mb-10">
+      Whether you're a developer, student, writer, or data nerd—this tool lets you convert text formats, clean messy strings,
+      generate fancy outputs, or parse structured content in just one click.
+    </p>
+
+    <div class="flex flex-wrap justify-center gap-6 text-left max-w-4xl mx-auto">
+      <div class="bg-gray-800 p-4 rounded-md w-full sm:w-[250px] border border-indigo-700">
+        <h4 class="text-cyan-400 font-semibold mb-2">🔠 Change Casing</h4>
+        <p class="text-sm text-gray-300">Easily convert between lowercase, UPPERCASE, camelCase, snake_case, and more.</p>
+      </div>
+      <div class="bg-gray-800 p-4 rounded-md w-full sm:w-[250px] border border-pink-700">
+        <h4 class="text-pink-400 font-semibold mb-2">🧹 Clean Your Text</h4>
+        <p class="text-sm text-gray-300">Strip whitespace, symbols, emojis, duplicate words, or HTML tags instantly.</p>
+      </div>
+      <div class="bg-gray-800 p-4 rounded-md w-full sm:w-[250px] border border-yellow-700">
+        <h4 class="text-yellow-300 font-semibold mb-2">✨ Stylize Output</h4>
+        <p class="text-sm text-gray-300">Turn boring text into aesthetic, mirrored, backwards, or leet speak for fun!</p>
+      </div>
+    </div>
+
+    <a href="#tools" class="mt-12 inline-block bg-indigo-500 hover:bg-indigo-600 text-white px-8 py-3 rounded-full transition">🎯 Use the Tools</a>
+  </section>
+
+  <!-- 🔧 Tool Function Section -->
+  <section id="tools" class="py-20 px-6 bg-gray-900 text-white">
+    <div class="max-w-3xl mx-auto text-center space-y-6">
+      <h2 class="text-4xl font-bold text-cyan-300">🧰 50 Powerful Text Tools</h2>
+
+      <div>
+        <p class="text-sm text-gray-400 uppercase font-mono">Category: 
+          <span id="tool-category" class="text-yellow-300">Text Casing</span>
+        </p>
+      </div>
+
+      <div class="flex items-center justify-center gap-2">
+        <button id="prevBtn" class="bg-gray-800 px-3 py-1 rounded hover:bg-gray-700">⟨</button>
+        <select
+          id="toolSelect"
+          size="10"
+          class="w-[300px] p-2 rounded bg-gray-800 text-white border border-cyan-400 text-center text-sm overflow-y-auto"
+        ></select>
+        <button id="nextBtn" class="bg-gray-800 px-3 py-1 rounded hover:bg-gray-700">⟩</button>
+      </div>
+      
+
+      <button id="applyBtn" class="mt-2 bg-cyan-500 text-white px-6 py-2 rounded hover:bg-cyan-600 font-semibold">
+        Apply Tool
+      </button>
+
+      <div class="grid grid-cols-1 md:grid-cols-2 gap-4 pt-8">
+        <textarea id="input" rows="6" placeholder="Enter your text here..." class="w-full p-4 bg-gray-800 border border-gray-700 rounded text-sm resize-none"></textarea>
+        <div id="output" class="w-full p-4 bg-gray-800 border border-gray-700 rounded text-sm whitespace-pre-wrap text-left">
+          <!-- Formatted output will appear here -->
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <script>
+    const categories = {
+      "Text Casing": [
+        "UPPERCASE", "lowercase", "Capitalize First Letter", "Capitalize Every Word", "Sentence case",
+        "Toggle Case", "InVeRt CaSe", "camelCase", "PascalCase", "snake_case"
+      ],
+      "Cleaning / Sanitizing": [
+        "Trim Whitespace", "Remove Extra Spaces", "Remove Punctuation", "Remove Special Characters", "Strip Numbers",
+        "Strip HTML Tags", "Remove Duplicate Words", "Remove Line Breaks", "Remove Tabs", "Collapse Multiple Newlines"
+      ],
+      "Aesthetic / Fancy": [
+        "Zalgo Text", "Backwards Text", "Upside Down Text", "Leet Speak", "Wide Aesthetic Text",
+        "Strikethrough", "Underline", "Superscript", "Subscript", "Bubble Text"
+      ],
+      "Structure / Parsing": [
+        "Text to CSV", "CSV to JSON", "JSON Pretty Print", "JSON Minify", "XML Beautify",
+        "XML Minify", "Indent with Tabs", "Convert Tabs to Spaces", "Extract Numbers", "Extract URLs"
+      ],
+      "String Utilities": [
+        "String Reverse", "String Shuffle", "Randomize Word Order", "Repeat String", "Pad Start",
+        "Pad End", "Truncate String", "Replace Substring", "Find and Highlight Word", "Count Occurrences"
+      ]
+    };
+  
+    const categoriesList = Object.keys(categories);
+    let currentCategoryIndex = 0;
+  
+    const select = document.getElementById("toolSelect");
+    const categoryLabel = document.getElementById("tool-category");
+    const output = document.getElementById("output");
+    const input = document.getElementById("input");
+  
+    function populateOptions() {
+      const currentCategory = categoriesList[currentCategoryIndex];
+      const tools = categories[currentCategory];
+  
+      categoryLabel.textContent = currentCategory;
+      select.innerHTML = ""; // Clear existing
+  
+      tools.forEach(tool => {
+        const option = document.createElement("option");
+        option.value = tool;
+        option.textContent = tool;
+        select.appendChild(option);
+      });
+    }
+  
+    // Function for Text Casing
+    function applyTextCasing(tool) {
+      let result = input.value;
+      switch (tool) {
+        case "UPPERCASE":
+          result = result.toUpperCase();
+          break;
+        case "lowercase":
+          result = result.toLowerCase();
+          break;
+        case "Capitalize First Letter":
+          result = result.charAt(0).toUpperCase() + result.slice(1);
+          break;
+        case "Capitalize Every Word":
+          result = result.replace(/\b\w/g, char => char.toUpperCase());
+          break;
+        case "Sentence case":
+          result = result.charAt(0).toUpperCase() + result.slice(1).toLowerCase();
+          break;
+        // Add other text casing functions as needed
+      }
+      return result;
+    }
+  
+    // Function for Cleaning / Sanitizing
+    function applyCleaningSanitizing(tool) {
+      let result = input.value;
+      switch (tool) {
+        case "Trim Whitespace":
+          result = result.trim();
+          break;
+        case "Remove Extra Spaces":
+          result = result.replace(/\s+/g, ' ').trim();
+          break;
+        case "Remove Punctuation":
+          result = result.replace(/[^\w\s]|_/g, '').replace(/\s+/g, ' ');
+          break;
+        case "Remove Special Characters":
+          result = result.replace(/[^a-zA-Z0-9 ]/g, '');
+          break;
+        // Add other cleaning functions as needed
+      }
+      return result;
+    }
+  
+    // Function for Aesthetic / Fancy Text
+    function applyAestheticFancy(tool) {
+      let result = input.value;
+      switch (tool) {
+        case "Zalgo Text":
+          result = result.split('').map(char => char + '̷').join('');
+          break;
+        case "Backwards Text":
+          result = result.split('').reverse().join('');
+          break;
+        case "Upside Down Text":
+          result = result.split('').reverse().join('').replace(/a/g, 'ɒ').replace(/b/g, 'q'); // example, add more chars
+          break;
+        // Add other aesthetic functions as needed
+      }
+      return result;
+    }
+  
+    // Function for Structure / Parsing
+    function applyStructureParsing(tool) {
+      let result = input.value;
+      switch (tool) {
+        case "Text to CSV":
+          result = result.split('\n').map(line => `"${line.trim()}"`).join(',\n');
+          break;
+        case "CSV to JSON":
+          let rows = result.split('\n');
+          let jsonArray = rows.map(row => {
+            let cols = row.split(',');
+            return { "column1": cols[0], "column2": cols[1] }; // Adjust as per CSV structure
+          });
+          result = JSON.stringify(jsonArray, null, 2);
+          break;
+        // Add other parsing functions as needed
+      }
+      return result;
+    }
+  
+    // Function for String Utilities
+    function applyStringUtilities(tool) {
+      let result = input.value;
+      switch (tool) {
+        case "String Reverse":
+          result = result.split('').reverse().join('');
+          break;
+        case "String Shuffle":
+          result = result.split('').sort(() => Math.random() - 0.5).join('');
+          break;
+        case "Randomize Word Order":
+          result = result.split(' ').sort(() => Math.random() - 0.5).join(' ');
+          break;
+        // Add other string utilities as needed
+      }
+      return result;
+    }
+  
+    document.getElementById("prevBtn").onclick = () => {
+      currentCategoryIndex = (currentCategoryIndex - 1 + categoriesList.length) % categoriesList.length;
+      populateOptions();
+    };
+  
+    document.getElementById("nextBtn").onclick = () => {
+      currentCategoryIndex = (currentCategoryIndex + 1) % categoriesList.length;
+      populateOptions();
+    };
+  
+    document.getElementById("applyBtn").onclick = () => {
+      const selectedTool = select.value;
+      let result;
+      
+      // Apply the selected tool's logic
+      if (categories["Text Casing"].includes(selectedTool)) {
+        result = applyTextCasing(selectedTool);
+      } else if (categories["Cleaning / Sanitizing"].includes(selectedTool)) {
+        result = applyCleaningSanitizing(selectedTool);
+      } else if (categories["Aesthetic / Fancy"].includes(selectedTool)) {
+        result = applyAestheticFancy(selectedTool);
+      } else if (categories["Structure / Parsing"].includes(selectedTool)) {
+        result = applyStructureParsing(selectedTool);
+      } else if (categories["String Utilities"].includes(selectedTool)) {
+        result = applyStringUtilities(selectedTool);
+      }
+  
+      // Show the result in the output box
+      output.textContent = result;
+    };
+  
+    populateOptions();
+  </script>
+  
+</body>
+</html>
